@@ -1,17 +1,20 @@
-import { Users } from "../models";
+import { IUser, default as userSchema } from '../models/Users';
+import mongoose, { Model } from 'mongoose';
 
 export default class UserRepository {
-    _users: Array<Users>;
-    constructor() {
-        this._users = new Array<Users>();
-    }
+  private readonly UserModel: Model<IUser>;
 
-    async create(user: any) {
-        this._users.push(user);
-        return user;
-    }
+  constructor() {
+    this.UserModel = mongoose.model<IUser>('User', userSchema);
+  }
 
-    async findOne(email: any) {
-        return this._users.find(user => user.email === email);
-    }
+  async create(user: any) {
+    const newUser = new this.UserModel(user);
+    await newUser.save();
+    return newUser;
+  }
+
+  async findOne(email: any) {
+    return this.UserModel.findOne({ email: email });
+  }
 }

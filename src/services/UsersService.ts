@@ -1,6 +1,6 @@
 import { UserLoginDTO, CreateUserDTO } from "../DTO";
 import { UserRepository } from "../repositories";
-import { Users } from "../models";
+import { IUser } from '../models/Users';
 
 export default class UsersServices {
 
@@ -23,7 +23,7 @@ export default class UsersServices {
             };
             const userFind = await this._userRepository.findOne(user.email)
             if (!userFind) {
-                return await this._userRepository.create(user as Users);
+                return await this._userRepository.create(user as IUser);
             } else {
                 throw new Error("User already exists");
             }
@@ -33,7 +33,7 @@ export default class UsersServices {
     }
 
 
-    async login(userLogin: UserLoginDTO): Promise<Users | null> {
+    async login(userLogin: UserLoginDTO): Promise<IUser | null> {
 
         const user = await this._userRepository.findOne(userLogin.email);
 

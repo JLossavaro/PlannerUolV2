@@ -1,6 +1,5 @@
 import shortid from 'shortid';
 
-
 export default class Events {
   _id: string;
   description: string;
