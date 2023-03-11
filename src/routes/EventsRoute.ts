@@ -34,10 +34,6 @@ const eventsController = new EventsController();
  *     responses:
  *       '201':
  *         description: The created event.
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Event'
  *       '400':
  *         description: Invalid input.
  *       '500':
