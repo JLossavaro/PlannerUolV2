@@ -5,15 +5,19 @@ const route = Router();
 
 const eventsController = new EventsController();
 
-
-//Atenção: existe um arquivo .json com todas as rotas/exemplos para o POSTMAN
-
+/**
+ * @swagger
+ * tags:
+ *   name: Events
+ *   description: All operations with events.
+ */
 /**
  * @swagger
  * /events:
  *   post:
  *     summary: Create a new event
  *     description: Creates a new event with a given description and date/time.
+ *     tags: [Events]
  *     requestBody:
  *       required: true
  *       content:
@@ -39,7 +43,6 @@ const eventsController = new EventsController();
  *       '500':
  *         description: Internal server error.
  */
-
 route.post('/events', (req: Request, res: Response) => {
     return eventsController.createEvent(req, res);
 });
@@ -50,6 +53,7 @@ route.post('/events', (req: Request, res: Response) => {
  *   get:
  *     summary: GetAll / GetallByWeekday
  *     description: Retrieve a list of all events or events occurring on a specific weekday, based on params.
+ *     tags: [Events]
  *     parameters:
  *       - in: query
  *         name: dayOfWeek
@@ -74,6 +78,7 @@ route.get('/events', (req: Request, res: Response) => {
  *   get:
  *     summary: Get a single event by ID.
  *     description: Retrieve an event by its unique identifier.
+ *     tags: [Events]
  *     parameters:
  *       - in: path
  *         name: id
@@ -96,13 +101,20 @@ route.get('/events/:id', (req: Request, res: Response) => {
  * @swagger
  * /events:
  *   delete:
- *     summary: Delete an event by ID
- *     description: Delete an event by its ID.
+ *     summary: DeleteByID OR AllEventsByWeekday
+ *     description: Delete an event by its ID OR delete ALL events in a weekday.
+ *     tags: [Events]
  *     parameters:
  *       - in: query
  *         name: id
  *         description: The ID of the event to delete.
  *         required: true
+ *         schema:
+ *           type: string
+ *       - in: query
+ *         name: weekDay
+ *         description: The weekday of the event to delete.
+ *         required: false
  *         schema:
  *           type: string
  *     responses:
