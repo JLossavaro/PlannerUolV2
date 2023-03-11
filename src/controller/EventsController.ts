@@ -11,7 +11,7 @@ export default class EventsController {
         this.eventsService = new EventsService();
     };
 
-    async createEvent(req: Request, res: Response) {
+    async CreateEvent(req: Request, res: Response) {
         const createEventDTO: CreateEventDTO = req.body;
         try {
             const validateCreate = CreateEventDTO.validateData(createEventDTO);

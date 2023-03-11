@@ -1,16 +1,15 @@
-import shortid from 'shortid';
+import { Schema, Document } from 'mongoose';
 
-export default class Events {
-  _id: string;
+export interface IEvent extends Document {
   description: string;
   dateTime: Date;
   createdAt: Date;
-
-  constructor(
-  ) {
-    this._id = shortid.generate();
-    this.createdAt = new Date();
-    this.description = '';
-    this.dateTime = new Date();
-  }
 }
+
+const eventSchema: Schema = new Schema({
+  description: { type: String, required: true },
+  dateTime: { type: String, default: new Date()},
+  createdAt: { type: Date, default: Date.now() },
+});
+
+export default eventSchema

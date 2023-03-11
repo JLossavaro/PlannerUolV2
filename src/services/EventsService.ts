@@ -1,9 +1,11 @@
 import { CreateEventDTO, CreateUserDTO } from "../DTO";
 import { EventRepository } from "../repositories";
-import { Events } from "../models";
+import { IEvent } from "../models/Events";
 
 export default class EventsService {
+    
     _eventRepository: EventRepository;
+    
     constructor() {
         this._eventRepository = new EventRepository();
     }
@@ -12,15 +14,20 @@ export default class EventsService {
         return await this._eventRepository.findAll();
     }
 
-    async CreateEvents(eventDTO: CreateEventDTO) {
-        let events: Events = new Events();
-        const newEvent = {
-            dateTime: eventDTO.dateTime,
-            description: eventDTO.description,
-            _id: events._id,
-            createdAt: events.createdAt
+    async CreateEvents(createEventDTO: CreateEventDTO) {
+        try{
+            const event = {
+                dateTime: createEventDTO.dateTime,
+                description: createEventDTO.description,
+                createdAt: createEventDTO.createdAt,
+
+                
+            };
+            return await this._eventRepository.create(event as IEvent);
+
+        }catch (error) {
+            throw error;
         }
-        return await this._eventRepository.create(newEvent as Events);
     }
 
 
