@@ -24,9 +24,10 @@ const options = {
             version: '1.0.0',
             description: 'API para minha aplicação',
         },
+        servers: [{ url: 'http://localhost:3333/api/v1/' }],
     },
     // Especificação dos arquivos de rotas
-    apis: ['./routes/*.ts'],
+    apis: ['./**/*.ts'],
 };
 const specs = swaggerJsDoc(options);
 app.use('/swagger', swaggerUi.serve, swaggerUi.setup(specs));
