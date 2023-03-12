@@ -11,7 +11,7 @@ export default class EventsController {
         this.eventsService = new EventsService();
     };
 
-    async createEvent(req: Request, res: Response) {
+    async CreateEvent(req: Request, res: Response) {
         const createEventDTO: CreateEventDTO = req.body;
         try {
             const validateCreate = CreateEventDTO.validateData(createEventDTO);
@@ -43,7 +43,7 @@ export default class EventsController {
     }
 
     async GetEventsById(req: Request, res: Response) {
-        try {
+        try { 
             const data = await this.eventsService.GetEventsById(req.params.id as string);
             return res.status(200).json({ data: data });
         } catch (error) {
@@ -57,7 +57,7 @@ export default class EventsController {
             if (req.query.id) {
                 const { id } = req.query;
                 await this.eventsService.DeleteEventById(id as string);
-                return res.status(200).json({ message: "Evento deletados com sucesso" });
+                return res.status(200).json({ message: "Evento deletado com sucesso" });
             } else if (req.query.dayOfWeek) {
                 const { dayOfWeek } = req.query;
                 await this.eventsService.DeleteAllEventsFromWeek(dayOfWeek as string);
