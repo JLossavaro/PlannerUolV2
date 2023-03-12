@@ -1,13 +1,14 @@
 import { UserLoginDTO, CreateUserDTO } from "../DTO";
 import { UserRepository } from "../repositories";
 import { IUser } from '../models/Users';
+import jwt from 'jsonwebtoken';
 
 export default class UsersServices {
 
     _userRepository: UserRepository;
 
     constructor() {
-        this._userRepository = new UserRepository();
+        this._userRepository = new UserRepository(); 
     }
 
     async createUser(createUserDTO: CreateUserDTO) {
@@ -43,5 +44,14 @@ export default class UsersServices {
             return null;
         }
     }
+
+
+
+    generateJwtToken(user: IUser): string {
+        const payload = { id: user.id, email: user.email };
+        const options = { expiresIn: '1h' };
+        return jwt.sign(payload, "secret", options);
+    }
+
 
 }

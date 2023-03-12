@@ -12,7 +12,8 @@ route.post('/users/signUp', (req: Request, res: Response) => {
 });
 
 route.post('/users/signIn', (req: Request, res: Response) => {
-  return userController.login(req, res);
+  const user = userController.login(req, res);
 });
+
 
 export default route;
