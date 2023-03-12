@@ -16,7 +16,7 @@ export default class EventsController {
         try {
             const validateCreate = CreateEventDTO.validateData(createEventDTO);
             if (!validateCreate.success) {
-                return res.status(400).json(validateCreate.error);
+                return res.status(400).json("The fields 'description' and 'dateTime' are required and must not be empty!");
             }
             const createdEvent = await this.eventsService.CreateEvents(createEventDTO);
             return res.status(201).json({ data: createdEvent });
