@@ -16,7 +16,7 @@ export default class EventRepository {
  
     async findById(id: string) {
         return this.EventModel.findById(id);
-    }
+    } 
 
     async findAllByWeekday(weekDay: string) {
         const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -24,10 +24,10 @@ export default class EventRepository {
         if (weekdayIndex === -1) {
           throw new Error('Invalid weekday');
         }
-        const events = await this.EventModel.find({ dateTime: { $gte: new Date(), $lt: new Date(new Date().setDate(new Date().getDate() + 7)) } });
+        const events = await this.EventModel.find();
         const eventsByWeekday = events.filter((event) => {
           const eventDate = new Date(event.dateTime);
-          const eventWeekdayIndex = eventDate.getDay();
+          const eventWeekdayIndex = eventDate.getUTCDay();
           return eventWeekdayIndex === weekdayIndex;
         });
         return eventsByWeekday;
@@ -49,16 +49,23 @@ export default class EventRepository {
         const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
         const weekdayIndex = weekdays.indexOf(weekDay);
         if (weekdayIndex === -1) {
-            throw new Error('Invalid weekday');
+          throw new Error('Invalid weekday');
         }
-        const events = await this.EventModel.find({ dateTime: { $gte: new Date(), $lt: new Date(new Date().setDate(new Date().getDate() + 7)) } });
-        const eventsToDelete = events.filter((event) => {
-            const eventWeekdayIndex = event.dateTime.getUTCDay();
-            return eventWeekdayIndex === weekdayIndex;
+        const eventsToDelete = await this.EventModel.find();
+        const eventsByWeekday = eventsToDelete.filter((event) => {
+          const eventDate = new Date(event.dateTime);
+          const eventWeekdayIndex = eventDate.getUTCDay();
+          return eventWeekdayIndex === weekdayIndex;
         });
-        
-        const result = await this.EventModel.deleteMany({ _id: { $in: eventsToDelete.map((event) => event._id) } });
-        return result;
-    }
+        if (eventsByWeekday.length === 0) {
+          throw new Error(`No events found for weekday ${weekDay}`);
+        }
+        const result = await this.EventModel.deleteMany({
+          _id: {
+            $in: eventsByWeekday.map((event) => event._id),
+          },
+        });
+        return result.deletedCount;
+      }
 }
 

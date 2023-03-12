@@ -45,7 +45,7 @@ export default class EventsService {
         if (result.length == 0) {
             throw new Error("Não existe evento para este dia");
         }
-        return result;
+        return result; 
     }
 
     async DeleteEventById(id: string) {        
