@@ -5,9 +5,8 @@ import swaggerUi from 'swagger-ui-express';
 import swaggerJsDoc from 'swagger-jsdoc';
 import express from 'express'
 import { UsersRoute, EventsRoute } from './routes';
-import { Router, Request, Response } from 'express';
+import { Router, Request, Response} from 'express';
 import { Connection } from 'mongoose';
-
 dotenv.config({ path: './config.env' });
 
 const app = express();
@@ -30,7 +29,7 @@ const options = {
     apis: ['./**/*.ts'],
 };
 const specs = swaggerJsDoc(options);
-app.use('/swagger', swaggerUi.serve, swaggerUi.setup(specs));
+app.use('/', swaggerUi.serve, swaggerUi.setup(specs));
 
 //MongoDB
 const DB = (process.env.DATABASE as string).replace('<PASSWORD>', (process.env.DATABASE_PASSWORD as string))
