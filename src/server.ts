@@ -31,7 +31,7 @@ const options = {
     apis: ['./**/*.ts'],
 };
 const specs = swaggerJsDoc(options);
-app.use('/', swaggerUi.serve, swaggerUi.setup(specs));
+app.use('/swagger', swaggerUi.serve, swaggerUi.setup(specs));
 
 //MongoDB
 const DB = (process.env.DATABASE as string).replace('<PASSWORD>', (process.env.DATABASE_PASSWORD as string))
