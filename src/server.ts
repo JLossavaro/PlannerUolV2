@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 
+import swaggerUi from 'swagger-ui-express';
+import swaggerJsDoc from 'swagger-jsdoc';
 import express from 'express'
 import { UsersRoute, EventsRoute } from './routes';
 import { Router, Request, Response } from 'express';
@@ -13,6 +15,23 @@ const route = Router()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 
+//swagger
+const options = {
+    swaggerDefinition: {
+        openapi: '3.0.0',
+        info: {
+            title: 'My API',
+            version: '1.0.0',
+            description: 'API para minha aplicação',
+        },
+        servers: [{ url: 'http://localhost:3333/api/v1/' }],
+    },
+    // Especificação dos arquivos de rotas
+    apis: ['./**/*.ts'],
+};
+const specs = swaggerJsDoc(options);
+app.use('/', swaggerUi.serve, swaggerUi.setup(specs));
+
 //MongoDB
 const DB = (process.env.DATABASE as string).replace('<PASSWORD>', (process.env.DATABASE_PASSWORD as string))
 mongoose.connect(DB, {
@@ -24,7 +43,6 @@ mongoose.connect(DB, {
     // console.log(con)
     console.log('DB Connection Successful! ☎️')
 })
-
 
 const baseRoute = '/api/v1';
 
