@@ -6,6 +6,7 @@ import { UsersRoute, EventsRoute } from './routes';
 import { Router, Request, Response } from 'express';
 import { Connection } from 'mongoose';
 
+
 dotenv.config({ path: './config.env' });
 
 const app = express();

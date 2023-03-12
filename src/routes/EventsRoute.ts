@@ -1,6 +1,6 @@
 import { Router, Request, Response } from 'express';
 import { EventsController } from '../controller';
-
+import { authMiddleware } from '../middlewares/AuthMiddleware'
 const route = Router();
 
 const eventsController = new EventsController();
@@ -8,7 +8,7 @@ const eventsController = new EventsController();
 
 //Atenção: existe um arquivo .json com todas as rotas/exemplos para o POSTMAN
 
-route.post('/events', (req: Request, res: Response) => {
+route.post('/events', authMiddleware, (req: Request, res: Response) => {
     return eventsController.CreateEvent(req, res);
 });
 
