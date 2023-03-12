@@ -63,7 +63,7 @@ export default class EventsController {
                 await this.eventsService.DeleteAllEventsFromWeek(dayOfWeek as string);
                 return res.status(200).json({ message: "Eventos deletados com sucesso" });
             }
-            return res.status(400).json({ message: "Insira Parâmetros" });
+            return res.status(400).json({ message: "Insert an event Id or a Weekday you wish to delete." });
         } catch (error) {
             const errorMessage: string = (error as Error).message;
             return res.status(500).send({ message: errorMessage });
