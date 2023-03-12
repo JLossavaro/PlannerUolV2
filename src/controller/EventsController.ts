@@ -48,7 +48,7 @@ export default class EventsController {
             return res.status(200).json({ data: data });
         } catch (error) {
             const errorMessage: string = (error as Error).message;
-            return res.status(500).send({ message: errorMessage });
+            return res.status(500).send({ message: "Event not found for the provided id." });
         }
     }
 
