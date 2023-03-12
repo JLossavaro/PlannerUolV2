@@ -1,51 +1,71 @@
-import { Events } from "../models";
+import { IEvent, default as eventSchema } from '../models/Events';
+import mongoose, { Model } from 'mongoose';
+
 
 export default class EventRepository {
-    _events: Array<Events>;
-    constructor() {
-        this._events = new Array<Events>();
+    private readonly EventModel: Model<IEvent>
+
+    constructor() { 
+        this.EventModel = mongoose.model<IEvent>('Event', eventSchema)
     }
 
-    async create(event: Events) {
-        this._events.push(event);
-        return event;
+    async create(event: IEvent) {
+        const newEvent = new this.EventModel(event);
+        return newEvent.save();
     }
-
+ 
     async findById(id: string) {
-        return this._events.find(event => event._id === id);
-    }
+        return this.EventModel.findById(id);
+    } 
 
     async findAllByWeekday(weekDay: string) {
         const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-        const teste = this._events.filter(event => {
-            const eventWeekday = weekdays[event.dateTime.getUTCDay()];
-            return eventWeekday === weekDay;
+        const weekdayIndex = weekdays.indexOf(weekDay);
+        if (weekdayIndex === -1) {
+          throw new Error('Invalid weekday');
+        }
+        const events = await this.EventModel.find();
+        const eventsByWeekday = events.filter((event) => {
+          const eventDate = new Date(event.dateTime);
+          const eventWeekdayIndex = eventDate.getUTCDay();
+          return eventWeekdayIndex === weekdayIndex;
         });
-        return teste;
-    }
+        return eventsByWeekday;
+      }
 
     async findAll() {
-        return this._events;
+        return this.EventModel.find();
     }
 
     async delete(id: string) {
-        const index = this._events.findIndex(event => event._id === id);
-        if (index === -1) {
-            throw new Error(`Evento com o ${id} não encontrado.`);
+        const deletedEvent = await this.EventModel.findByIdAndDelete(id);
+        if (!deletedEvent) {
+        throw new Error(`Evento com o id ${id} não encontrado.`);
         }
-        const deletedEvent = this._events.splice(index, 1);
         return deletedEvent;
     }
 
     async deleteAllByWeekday(weekDay: string) {
         const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-        this._events = this._events.filter(event => {
-            const eventWeekday = weekdays[event.dateTime.getUTCDay()];
-            return eventWeekday !== weekDay;
+        const weekdayIndex = weekdays.indexOf(weekDay);
+        if (weekdayIndex === -1) {
+          throw new Error('Invalid weekday');
+        }
+        const eventsToDelete = await this.EventModel.find();
+        const eventsByWeekday = eventsToDelete.filter((event) => {
+          const eventDate = new Date(event.dateTime);
+          const eventWeekdayIndex = eventDate.getUTCDay();
+          return eventWeekdayIndex === weekdayIndex;
         });
-
-        return this._events;
-    }
-
+        if (eventsByWeekday.length === 0) {
+          throw new Error(`No events found for weekday ${weekDay}`);
+        }
+        const result = await this.EventModel.deleteMany({
+          _id: {
+            $in: eventsByWeekday.map((event) => event._id),
+          },
+        });
+        return result.deletedCount;
+      }
 }
 
