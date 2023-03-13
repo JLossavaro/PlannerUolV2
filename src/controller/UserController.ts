@@ -39,9 +39,9 @@ export default class UserController {
                 return res.status(400).send('Please provide email and password in the request body');
             }
             const user = await this.userService.login(userLoginDTO);
-
             if (user != null) {
-                return res.status(200).json({ message: 'Logado com sucesso!', data: user });
+                const token = this.userService.generateJwtToken(user);
+                return res.status(200).json({ message: 'Logado com sucesso!', data: user, token });
             } else {
                 return res.status(401).json({ message: 'Usuário ou senha inválidos' });
             }

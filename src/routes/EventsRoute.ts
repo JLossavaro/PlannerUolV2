@@ -1,6 +1,6 @@
 import { Router, Request, Response } from 'express';
 import { EventsController } from '../controller';
-
+import { authMiddleware } from '../middlewares/AuthMiddleware'
 const route = Router();
 
 const eventsController = new EventsController();
@@ -10,6 +10,17 @@ const eventsController = new EventsController();
  * tags:
  *   name: Events
  *   description: All operations with events.
+ * components:
+ *   securitySchemes:
+ *     bearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
+ */
+/**
+ * @swagger
+ * security:
+ *   - bearerAuth: []
  */
 /**
  * @swagger
@@ -18,6 +29,8 @@ const eventsController = new EventsController();
  *     summary: Create a new event
  *     description: Creates a new event with a given description and date/time.
  *     tags: [Events]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -43,7 +56,7 @@ const eventsController = new EventsController();
  *       '500':
  *         description: Internal server error.
  */
-route.post('/events', (req: Request, res: Response) => {
+route.post('/events', authMiddleware, (req: Request, res: Response) => {
     return eventsController.CreateEvent(req, res);
 });
 
@@ -54,6 +67,8 @@ route.post('/events', (req: Request, res: Response) => {
  *     summary: GetAll / GetallByWeekday
  *     description: Retrieve a list of all events or events occurring on a specific weekday, based on params.
  *     tags: [Events]
+ *     security:
+ *     - bearerAuth: []
  *     parameters:
  *       - in: query
  *         name: dayOfWeek
@@ -68,7 +83,7 @@ route.post('/events', (req: Request, res: Response) => {
  *               type: array
  * 
  */
-route.get('/events', (req: Request, res: Response) => {
+route.get('/events', authMiddleware, (req: Request, res: Response) => {
     return eventsController.GetAllEvents(req, res);
 });
 
@@ -79,6 +94,8 @@ route.get('/events', (req: Request, res: Response) => {
  *     summary: Get a single event by ID.
  *     description: Retrieve an event by its unique identifier.
  *     tags: [Events]
+ *     security:
+ *     - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -93,7 +110,7 @@ route.get('/events', (req: Request, res: Response) => {
  *       '404':
  *         description: The event with the specified ID was not found.
  */
-route.get('/events/:id', (req: Request, res: Response) => {
+route.get('/events/:id', authMiddleware, (req: Request, res: Response) => {
     return eventsController.GetEventsById(req, res);
 });
 
@@ -104,6 +121,8 @@ route.get('/events/:id', (req: Request, res: Response) => {
  *     summary: DeleteByID OR AllEventsByWeekday
  *     description: Delete an event by its ID OR delete ALL events in a weekday.
  *     tags: [Events]
+ *     security:
+ *     - bearerAuth: []
  *     parameters:
  *       - in: query
  *         name: id
@@ -125,7 +144,7 @@ route.get('/events/:id', (req: Request, res: Response) => {
  *       '500':
  *         description: Internal server error.
  */
-route.delete('/events/', (req: Request, res: Response) => {
+route.delete('/events', authMiddleware, (req: Request, res: Response) => {
     return eventsController.DeleteEvent(req, res);
 });
 
