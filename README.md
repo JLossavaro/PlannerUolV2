@@ -46,7 +46,7 @@ Welcome to User-Event API that allows users to perform various operations relate
 - The base route for all endpoints is /api/v1.
 - All authenticated routes require a valid JSON Web Token to be included in the Authorization header of the request.
 
-### **JWT AUTHENTICATION**
+#### **JWT AUTHENTICATION**
 
 The following routes are protected by JWT authentication and require a bearer token to be included in the request header:
 
@@ -68,7 +68,7 @@ The following routes are protected by JWT authentication and require a bearer to
 
 For these routes, the user must first obtain a valid JWT by signing through the appropriate endpoint. Once authenticated, the user can use the obtained JWT to access the protected resources by including it in the Authorization header of the request with the format "Bearer <JWT>". This ensures that only authorized users can perform sensitive operations on the server.
 
-### **EVENTS**
+#### **EVENTS**
 
 To create an event, user can send a POST request to the /events endpoint with the following information in the request body:
 
@@ -78,7 +78,7 @@ To create an event, user can send a POST request to the /events endpoint with th
 
 To filter events by weekday using the endpoint `/api/v1/events?dayOfWeek={weekday}`, it's important to pass the name of the day in the correct format. The weekday name should be in English and start with an **uppercase letter**, for example, "Monday", "Tuesday", "Wednesday", and so on. This format is case-sensitive, so "monday" or "MONDAY" won't work. Make sure to use the correct spelling and capitalization when specifying the weekday to ensure that the filtering works properly.
 
-### **USER ACCOUNT**
+#### **USER ACCOUNT**
 
 To create a user account, user can send a POST request to the /signUp endpoint with the following information in the request url parameters:
 
@@ -120,7 +120,7 @@ We have implemented Swagger to provide a more user-friendly interface for testin
 
 All of the functionalities of our API routes, including the authentication system, are fully functional through the Swagger interface. This means that you can test each endpoint and ensure that everything is working as expected before integrating our API into your application. We recommend using the Swagger UI to test each endpoint and familiarize yourself with the available functionality.
 
-### **TECHNOLOGIES USED**
+#### **TECHNOLOGIES USED**
 
 The following technologies were used in the development of this project:
 
