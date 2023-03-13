@@ -17,4 +17,14 @@ export default class UserRepository {
   async findOne(email: any) {
     return this.UserModel.findOne({ email: email });
   }
+
+  async findOneAndUpdate(email: any, updatedUser: any) {
+    return await this.UserModel.findOneAndUpdate({ email: email }, updatedUser, { new: true });
+  }
+
+  async deleteOne(email: string): Promise<void> {
+    await this.UserModel.deleteOne({ email });
+  }
+
+
 }

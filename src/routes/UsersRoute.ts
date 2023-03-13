@@ -1,5 +1,6 @@
 import { Router, Request, Response } from 'express';
 import { UserController } from '../controller';
+import authMiddleware from '../middlewares/AuthMiddleware';
 
 const route = Router();
 
@@ -111,6 +112,16 @@ route.post('/users/signUp', (req: Request, res: Response) => {
 route.post('/users/signIn', (req: Request, res: Response) => {
   const user = userController.login(req, res);
 });
+
+route.put('/users/updateUser', authMiddleware, (req: Request, res: Response) => {
+  const user = userController.updateUser(req, res);
+});
+
+
+route.delete('/users/deleteUser', authMiddleware, (req: Request, res: Response) => {
+  const user = userController.deleteUser(req, res);
+});
+
 
 
 export default route;
