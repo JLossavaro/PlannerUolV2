@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { CreateUserDTO, UserLoginDTO } from "../DTO";
 import { UsersService } from "../services";
+import jwt from 'jsonwebtoken';
 
 
 export default class UserController {
@@ -27,9 +28,6 @@ export default class UserController {
             }
             return res.status(500).json({ errorMessage });
         }
-
-
-
     }
 
     async login(req: Request, res: Response) {
@@ -50,4 +48,28 @@ export default class UserController {
             return res.status(401).json({ message: err });
         }
     }
+    async updateUser(req: Request, res: Response) {
+        const user = req.body;
+        try {
+            const token = req.headers.authorization?.replace('Bearer ', '');
+            const user = req.body;
+            const newUser = await this.userService.updateUser(user, token);
+            return res.status(200).json({ message: 'Atualizado com sucesso!', data: newUser });
+        } catch (err) {
+            return res.status(400).json({ message: err });
+        }
+    }
+
+    async deleteUser(req: Request, res: Response) {
+        const user = req.body;
+        try {
+            const token = req.headers.authorization?.replace('Bearer ', '');
+            const user = req.body;
+            await this.userService.deleteUser(user.email, token);
+            return res.status(200).json({ message: 'deletado com sucesso!' });
+        } catch (err) {
+            return res.status(400).json({ message: err });
+        }
+    }
+
 }
