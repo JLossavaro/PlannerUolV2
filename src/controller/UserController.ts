@@ -16,7 +16,7 @@ export default class UserController {
 
             const validateCreate = CreateUserDTO.validateData(createUserDTO);
             if (!validateCreate.success) {
-                return res.status(401).json(validateCreate.error);
+                return res.status(401).json("Please provide the following parameters in the request body: firstName, lastName, birthDate, city, country, email, password and confirmPassword");
             }
             const createdUser = await this.userService.createUser(createUserDTO);
             return res.status(201).json({ data: createdUser });
@@ -36,7 +36,7 @@ export default class UserController {
         try {
             const userLoginDTO: UserLoginDTO = req.body;
             if (!(userLoginDTO.email && userLoginDTO.password)) {
-                return res.status(400).send('All inputs is required');
+                return res.status(400).send('Please provide email and password in the request body');
             }
             const user = await this.userService.login(userLoginDTO);
 
@@ -50,5 +50,4 @@ export default class UserController {
             return res.status(401).json({ message: err });
         }
     }
-
 }
