@@ -16,7 +16,7 @@ export default class EventsController {
         try {
             const validateCreate = CreateEventDTO.validateData(createEventDTO);
             if (!validateCreate.success) {
-                return res.status(400).json(validateCreate.error);
+                return res.status(400).json("The fields 'description' and 'dateTime' are required and must not be empty!");
             }
             const createdEvent = await this.eventsService.CreateEvents(createEventDTO);
             return res.status(201).json({ data: createdEvent });
@@ -48,7 +48,7 @@ export default class EventsController {
             return res.status(200).json({ data: data });
         } catch (error) {
             const errorMessage: string = (error as Error).message;
-            return res.status(500).send({ message: errorMessage });
+            return res.status(500).send({ message: "Event not found for the provided id." });
         }
     }
 
@@ -63,7 +63,7 @@ export default class EventsController {
                 await this.eventsService.DeleteAllEventsFromWeek(dayOfWeek as string);
                 return res.status(200).json({ message: "Eventos deletados com sucesso" });
             }
-            return res.status(400).json({ message: "Insira Parâmetros" });
+            return res.status(400).json({ message: "Insert an event Id or a Weekday you wish to delete." });
         } catch (error) {
             const errorMessage: string = (error as Error).message;
             return res.status(500).send({ message: errorMessage });

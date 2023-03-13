@@ -5,9 +5,8 @@ import swaggerUi from 'swagger-ui-express';
 import swaggerJsDoc from 'swagger-jsdoc';
 import express from 'express'
 import { UsersRoute, EventsRoute } from './routes';
-import { Router, Request, Response } from 'express';
+import { Router, Request, Response} from 'express';
 import { Connection } from 'mongoose';
-
 dotenv.config({ path: './config.env' });
 
 const app = express();
