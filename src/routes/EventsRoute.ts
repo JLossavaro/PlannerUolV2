@@ -127,11 +127,11 @@ route.get('/events/:id', authMiddleware, (req: Request, res: Response) => {
  *       - in: query
  *         name: id
  *         description: The ID of the event to delete.
- *         required: true
+ *         required: false
  *         schema:
  *           type: string
  *       - in: query
- *         name: weekDay
+ *         name: dayOfWeek
  *         description: The weekday of the event to delete.
  *         required: false
  *         schema:
