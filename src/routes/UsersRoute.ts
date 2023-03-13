@@ -138,26 +138,36 @@ route.post('/users/signIn', (req: Request, res: Response) => {
  *               firstName:
  *                 type: string
  *                 description: Primeiro nome do usuário
+ *                 nullable: true
  *               lastName:
  *                 type: string
  *                 description: Último nome do usuário
+ *                 nullable: true
  *               birthDate:
  *                 type: string
  *                 description: Data de nascimento do usuário
+ *                 nullable: true
  *               city:
  *                 type: string
  *                 description: Cidade do usuário
+ *                 nullable: true
  *               country:
  *                 type: string
  *                 description: País do usuário
+ *                 nullable: true
  *               email:
  *                 type: string
- *                 description: Endereço de e-mail do usuário
- *               password:
- *                 type: string
- *                 description: Senha do usuário
- *             required:
- *               - email
+ *                 description: E-mail do usuário
+ *                 required: true
+ *                 example: john.doe@example.com
+ *             example:
+ *               firstName: John
+ *               lastName: Doe
+ *               birthDate: 1990-01-01
+ *               city: New York
+ *               country: USA
+ *               email: john.doe@example.com
+
  *     responses:
  *       200:
  *         description: Usuário atualizado com sucesso
@@ -168,6 +178,7 @@ route.post('/users/signIn', (req: Request, res: Response) => {
  *       500:
  *         description: Erro interno do servidor
  */
+
 route.put('/users/updateUser', authMiddleware, (req: Request, res: Response) => {
   const user = userController.updateUser(req, res);
 });

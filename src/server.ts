@@ -18,6 +18,11 @@ app.use(express.urlencoded({ extended: true }));
 
 //swagger
 const options = {
+    swaggerOptions: {
+        persistAuthorization: true,
+        // Remove a opção "Send empty value"
+        showRequestHeaders: false,
+    },
     swaggerDefinition: {
         openapi: '3.0.0',
         info: {
