@@ -16,7 +16,7 @@ Welcome to User-Event API that allows users to perform various operations relate
 
 - To connect the application to the database, please create a `config.env` file at the root of your project, if it does not already exist. In this file, set the values of two environment variables: `DATABASE` and `DATABASE_PASSWORD`. These variables should contain the database connection string and the database password, respectively. Once you have set these variables, the application will be able to access the database using the provided credentials.
 
-- Make sure that you have all that dependencies in your `package.json` file correctly installed
+- Make sure that you have all that dependencies in your package.json file correctly installed
 
 #### **FEATURES**
 
@@ -30,17 +30,18 @@ Welcome to User-Event API that allows users to perform various operations relate
 
 #### **API ENDPOINTS**
 
-|**HTTP VERB** |**ENDPOINT**|**ACTION**|
-|GET |/api/v1/events| Retrieve all events
-|GET |/api/v1/events/{id}| Retrieve a specific event by ID
-|GET |api/v1/events?dayOfWeek={weekday}| Retrieve all events on a specific weekday
-|POST |/api/v1/users/signUp| Create a new user account
-|POST |/api/v1/users/signIn| Login to an existent user account
-|POST |/api/v1/events| Create a new event
-|PUT |/api/v1/users/updateUser| Update a user's account information
-|DELETE |/api/v1/users/deleteUser| Delete a user account
-|DELETE |/api/v1/events?id={id}| Delete a specific event by ID
-|DELETE |/api/v1/events?dayOfWeek={weekday}| Delete all events on a specific weekday
+| **HTTP VERB** | **ENDPOINT**                       | **ACTION**                                |
+| ------------- | ---------------------------------- | ----------------------------------------- |
+| GET           | /api/v1/events                     | Retrieve all events                       |
+| GET           | /api/v1/events/{id}                | Retrieve a specific event by ID           |
+| GET           | api/v1/events?dayOfWeek={weekday}  | Retrieve all events on a specific weekday |
+| POST          | /api/v1/users/signUp               | Create a new user account                 |
+| POST          | /api/v1/users/signIn               | Login to an existent user account         |
+| POST          | /api/v1/events                     | Create a new event                        |
+| PUT           | /api/v1/users/updateUser           | Update a user's account information       |
+| DELETE        | /api/v1/users/deleteUser           | Delete a user account                     |
+| DELETE        | /api/v1/events?id={id}             | Delete a specific event by ID             |
+| DELETE        | /api/v1/events?dayOfWeek={weekday} | Delete all events on a specific weekday   |
 
 - The base route for all endpoints is /api/v1.
 - All authenticated routes require a valid JSON Web Token to be included in the Authorization header of the request.
@@ -50,12 +51,19 @@ Welcome to User-Event API that allows users to perform various operations relate
 The following routes are protected by JWT authentication and require a bearer token to be included in the request header:
 
 `GET` /api/v1/events
+
 `GET` /api/v1/events/{id}
+
 `GET` /api/v1/events?dayOfWeek={weekday}
+
 `POST` /api/v1/events
+
 `PUT` /api/v1/users/updateUser
+
 `DELETE` /api/v1/users/deleteUser
+
 `DELETE` /api/v1/events?id={id}
+
 `DELETE` /api/v1/events?dayOfWeek={weekday}
 
 For these routes, the user must first obtain a valid JWT by signing through the appropriate endpoint. Once authenticated, the user can use the obtained JWT to access the protected resources by including it in the Authorization header of the request with the format "Bearer <JWT>". This ensures that only authorized users can perform sensitive operations on the server.
@@ -64,27 +72,36 @@ For these routes, the user must first obtain a valid JWT by signing through the 
 
 To create an event, user can send a POST request to the /events endpoint with the following information in the request body:
 
-- `description`: A brief description of the event
-- `dateTime`: Date at MM/DD/YYYY format that will happen the event
+`description`: A brief description of the event.
+
+`dateTime`: Date at MM/DD/YYYY format that will happen the event.
 
 To filter events by `weekday` using the endpoint /`api/v1/events?dayOfWeek={weekday}`, it's important to pass the name of the day in the correct format. The weekday name should be in English and start with an **uppercase letter**, for example, "Monday", "Tuesday", "Wednesday", and so on. This format is case-sensitive, so "monday" or "MONDAY" won't work. Make sure to use the correct spelling and capitalization when specifying the weekday to ensure that the filtering works properly.
 
-### User Accounts
+### **USER ACCOUNT**
 
 To create a user account, user can send a POST request to the /signUp endpoint with the following information in the request url parameters:
 
 `firstName`: This parameter should contain the user's first name as a string.
+
 `lastName`: This parameter should contain the user's last name as a string.
+
 `birthDate`: This parameter should contain the user's birth date in the format of MM/DD/YYYY.
+
 `city`: This parameter should contain the user's city of residence as a string.
+
 `country`: This parameter should contain the user's country of residence as a string.
+
 `email`: This parameter should be passed in a valid email format, such as "example@example.com". This means that the email address should include the "@" symbol and a valid domain name.
+
 `password`: This parameter should contain the user's password as a string.
+
 `confirmPassword`: This parameter should contain a copy of the user's password as a string to confirm that the user has typed it correctly. This is typically used to prevent typos or mistakes when entering passwords.
 
 To log in, user can send a POST request to the /signIn endpoint with the following information in the request body:
 
 `email`: This parameter should be passed in a valid email format, such as "example@example.com". This means that the email address should include the "@" symbol and a valid domain name.
+
 `password`: This parameter should contain the user's password as a string.
 
 #### **DEPLOYMENT**
@@ -108,16 +125,24 @@ All of the functionalities of our API routes, including the authentication syste
 The following technologies were used in the development of this project:
 
 `Node.js`: A JavaScript runtime built on Chrome's V8 JavaScript engine that allows for server-side scripting.
+
 `Express`: A fast and minimalist web framework for Node.js used to create server applications.
+
 `Mongoose`: An Object Data Modeling (ODM) library used for MongoDB to provide a schema-based solution to model application data.
+
 `MongoDB`: A document-oriented NoSQL database used for storing and retrieving data.
+
 `JSON Web Tokens`: A compact and self-contained way for securely transmitting information between parties as a JSON object.
+
 `Swagger`: An open-source software framework used for designing, building, documenting, and consuming RESTful web services.
+
 `Dotenv`: A zero-dependency module used for loading environment variables from a .env file into process.env.
+
 `TypeScript`: A statically-typed superset of JavaScript that compiles to plain JavaScript.
+
 `Zod`: A TypeScript-first schema validation library used for defining and validating data structures.
 
-All functionalities of the routes and the authentication system are documented in Swagger, which can be accessed at http://127.0.0.1:3333/swagger/ after starting the local server with npm start. The project also includes development dependencies such as `nodemon` for automatic server restarts and `ts-node` for running TypeScript files without compilation.
+All functionalities of the routes and the authentication system are documented in Swagger, which can be accessed at the specif route defined above after starting the local server with npm start. The project also includes development dependencies such as `nodemon` for automatic server restarts and `ts-node` for running TypeScript files without compilation.
 
 #### **CONCLUSION**
 
