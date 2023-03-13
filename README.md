@@ -30,18 +30,18 @@ Welcome to User-Event API that allows users to perform various operations relate
 
 #### **API ENDPOINTS**
 
-| **HTTP VERB** | **ENDPOINT**                       | **ACTION**                                |
-| ------------- | ---------------------------------- | ----------------------------------------- |
-| GET           | /api/v1/events                     | Retrieve all events                       |
-| GET           | /api/v1/events/{id}                | Retrieve a specific event by ID           |
-| GET           | api/v1/events?dayOfWeek={weekday}  | Retrieve all events on a specific weekday |
-| POST          | /api/v1/users/signUp               | Create a new user account                 |
-| POST          | /api/v1/users/signIn               | Login to an existent user account         |
-| POST          | /api/v1/events                     | Create a new event                        |
-| PUT           | /api/v1/users/updateUser           | Update a user's account information       |
-| DELETE        | /api/v1/users/deleteUser           | Delete a user account                     |
-| DELETE        | /api/v1/events?id={id}             | Delete a specific event by ID             |
-| DELETE        | /api/v1/events?dayOfWeek={weekday} | Delete all events on a specific weekday   |
+| **HTTP VERB** | **ENDPOINT**                         | **ACTION**                                |
+| ------------- | ------------------------------------ | ----------------------------------------- |
+| GET           | `/api/v1/events`                     | Retrieve all events                       |
+| GET           | `/api/v1/events/{id}`                | Retrieve a specific event by ID           |
+| GET           | `api/v1/events?dayOfWeek={weekday}`  | Retrieve all events on a specific weekday |
+| POST          | `/api/v1/users/signUp`               | Create a new user account                 |
+| POST          | `/api/v1/users/signIn`               | Login to an existent user account         |
+| POST          | `/api/v1/events`                     | Create a new event                        |
+| PUT           | `/api/v1/users/updateUser`           | Update a user's account information       |
+| DELETE        | `/api/v1/users/deleteUser`           | Delete a user account                     |
+| DELETE        | `/api/v1/events?id={id}`             | Delete a specific event by ID             |
+| DELETE        | `/api/v1/events?dayOfWeek={weekday}` | Delete all events on a specific weekday   |
 
 - The base route for all endpoints is /api/v1.
 - All authenticated routes require a valid JSON Web Token to be included in the Authorization header of the request.
@@ -50,21 +50,21 @@ Welcome to User-Event API that allows users to perform various operations relate
 
 The following routes are protected by JWT authentication and require a bearer token to be included in the request header:
 
-`GET` /api/v1/events
+**GET** `/api/v1/events`
 
-`GET` /api/v1/events/{id}
+**GET** `/api/v1/events/{id}`
 
-`GET` /api/v1/events?dayOfWeek={weekday}
+**GET** `/api/v1/events?dayOfWeek={weekday}`
 
-`POST` /api/v1/events
+**POST** `/api/v1/events`
 
-`PUT` /api/v1/users/updateUser
+**PUT** `/api/v1/users/updateUser`
 
-`DELETE` /api/v1/users/deleteUser
+**DELETE** `/api/v1/users/deleteUser`
 
-`DELETE` /api/v1/events?id={id}
+**DELETE** `/api/v1/events?id={id}`
 
-`DELETE` /api/v1/events?dayOfWeek={weekday}
+**DELETE** `/api/v1/events?dayOfWeek={weekday}`
 
 For these routes, the user must first obtain a valid JWT by signing through the appropriate endpoint. Once authenticated, the user can use the obtained JWT to access the protected resources by including it in the Authorization header of the request with the format "Bearer <JWT>". This ensures that only authorized users can perform sensitive operations on the server.
 
@@ -76,7 +76,7 @@ To create an event, user can send a POST request to the /events endpoint with th
 
 `dateTime`: Date at MM/DD/YYYY format that will happen the event.
 
-To filter events by `weekday` using the endpoint /`api/v1/events?dayOfWeek={weekday}`, it's important to pass the name of the day in the correct format. The weekday name should be in English and start with an **uppercase letter**, for example, "Monday", "Tuesday", "Wednesday", and so on. This format is case-sensitive, so "monday" or "MONDAY" won't work. Make sure to use the correct spelling and capitalization when specifying the weekday to ensure that the filtering works properly.
+To filter events by weekday using the endpoint `/api/v1/events?dayOfWeek={weekday}`, it's important to pass the name of the day in the correct format. The weekday name should be in English and start with an **uppercase letter**, for example, "Monday", "Tuesday", "Wednesday", and so on. This format is case-sensitive, so "monday" or "MONDAY" won't work. Make sure to use the correct spelling and capitalization when specifying the weekday to ensure that the filtering works properly.
 
 ### **USER ACCOUNT**
 
