@@ -1,6 +1,7 @@
 import { UserLoginDTO, CreateUserDTO } from "../DTO";
 import { UserRepository } from "../repositories";
 import { IUser } from '../models/Users';
+import jwt from 'jsonwebtoken';
 
 export default class UsersServices {
 
@@ -43,5 +44,36 @@ export default class UsersServices {
             return null;
         }
     }
+
+    async updateUser(user: IUser, token: any): Promise<IUser | null> {
+
+        const decoded = jwt.decode(token as string) as { email?: string };
+        if (decoded.email == user.email) {
+            const updatedUser = await this._userRepository.findOneAndUpdate(user.email, user);
+            return updatedUser;
+        } else {
+            throw new Error('Erro ao atualizar o usuário');
+        }
+
+    }
+
+    async deleteUser(email: any, token: any): Promise<void> {
+
+        const decoded = jwt.decode(token as string) as { email?: string };
+        if (email == decoded.email) {
+            const updatedUser = await this._userRepository.deleteOne(email);
+            return;
+        } else {
+            throw new Error('Erro ao deletar o usuário');
+        }
+
+    }
+
+    generateJwtToken(user: IUser): string {
+        const payload = { id: user.id, email: user.email };
+        const options = { expiresIn: '1h' };
+        return jwt.sign(payload, "secret", options);
+    }
+
 
 }
